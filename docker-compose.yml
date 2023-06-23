@@ -1,0 +1,42 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  newsletterapi:
+    image: newsletterapi
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - 5000:5000
+    networks:
+        - api
+        - database
+
+  newsletterdatabase:
+    image: mysql:5.7
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./docker/mysql:/etc/mysql/conf.d
+    restart: always
+    command: --max_allowed_packet=268435456
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: newsletter_database
+      MYSQL_USER: database_user
+      MYSQL_PASSWORD: secret
+    networks:
+      - database
+
+volumes:
+  dbdata:
+
+networks:
+  api:
+    driver: bridge
+  database:
+    driver: bridge
