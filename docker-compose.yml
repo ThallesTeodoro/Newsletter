@@ -32,6 +32,16 @@ services:
     networks:
       - database
 
+  newslettermq:
+    image: rabbitmq:3.12.0-management
+    hostnme: newslettermq-queue
+    volumes:
+      - ./.containers/queue/data/:/var/lib/rabbitmq
+      - ./.containers/queue/log/:/var/log/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: mq_user
+      RABBITMQ_DEFAULT_PASS: secret
+
 volumes:
   dbdata:
 

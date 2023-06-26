@@ -1,8 +1,10 @@
 using Carter;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newsletter.Api.Options;
 using Newsletter.Application;
+using Newsletter.Infrastructure.MessageBroker;
 using Newsletter.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +33,26 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(
     });
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(AssemblyReference.Assembly));
+
+builder.Services.Configure<MessageBrokerSettings>(builder.Configuration.GetSection("MessageBroker"));
+
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<MessageBrokerSettings>>().Value);
+
+builder.Services.AddMassTransit(bussConfigurator =>
+{
+    bussConfigurator.SetKebabCaseEndpointNameFormatter();
+
+    bussConfigurator.UsingRabbitMq((context, configurator) =>
+    {
+        MessageBrokerSettings settings = context.GetRequiredService<MessageBrokerSettings>();
+
+        configurator.Host(new Uri(settings.Host), h =>
+        {
+            h.Username(settings.Username);
+            h.Password(settings.Password);
+        });
+    });
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
