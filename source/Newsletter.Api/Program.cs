@@ -6,6 +6,7 @@ using Newsletter.Api.Options;
 using Newsletter.Application;
 using Newsletter.Infrastructure.MessageBroker;
 using Newsletter.Infrastructure.Persistence;
+using Newsletter.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +54,8 @@ builder.Services.AddMassTransit(bussConfigurator =>
         });
     });
 });
+
+builder.Services.AddInfrastructureServices();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
