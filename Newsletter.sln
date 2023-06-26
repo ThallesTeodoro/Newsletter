@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{729C95
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsletter.Api", "source\Newsletter.Api\Newsletter.Api.csproj", "{3608042E-6034-4B88-97D1-8BB505C813E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsletter.Core", "source\Newsletter.Core\Newsletter.Core.csproj", "{49E198A8-6FE5-45F8-B5B1-1C9C16B65CD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsletter.Domain", "source\Newsletter.Domain\Newsletter.Domain.csproj", "{49E198A8-6FE5-45F8-B5B1-1C9C16B65CD2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newsletter.Application", "source\Newsletter.Application\Newsletter.Application.csproj", "{2E0470FF-9DF2-464B-8124-FD620828C2E4}"
 EndProject
