@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Newsletter.Infrastructure\Newsletter.Infrastructure.csproj" />
+    <ProjectReference Include="..\Newsletter.Application\Newsletter.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,6 +2,7 @@ using Carter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newsletter.Api.Options;
+using Newsletter.Application;
 using Newsletter.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,8 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(
 
         dbContextOptionsBuilder.EnableSensitiveDataLogging(databaseOptions.EnableSensitiveDataLogging);
     });
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(AssemblyReference.Assembly));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
