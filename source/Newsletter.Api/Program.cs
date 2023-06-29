@@ -7,6 +7,7 @@ using Newsletter.Application;
 using Newsletter.Infrastructure.MessageBroker;
 using Newsletter.Infrastructure.Persistence;
 using Newsletter.Infrastructure;
+using Newsletter.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +34,7 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(
         dbContextOptionsBuilder.EnableSensitiveDataLogging(databaseOptions.EnableSensitiveDataLogging);
     });
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(AssemblyReference.Assembly));
+builder.Services.AddApplicationServices();
 
 builder.Services.Configure<MessageBrokerSettings>(builder.Configuration.GetSection("MessageBroker"));
 
@@ -69,6 +70,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 

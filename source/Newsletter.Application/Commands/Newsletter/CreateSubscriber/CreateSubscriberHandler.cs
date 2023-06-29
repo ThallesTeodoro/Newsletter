@@ -1,11 +1,11 @@
 using MediatR;
 using Newsletter.Domain.Contracts.Persistence;
 using Newsletter.Domain.Entities;
-using Newsletter.Domain.Types;
+using Newsletter.Domain.Primitives.Types;
 
 namespace Newsletter.Application.Commands.Newsletter.CreateSubscriber;
 
-public class CreateSubscriberHandler : IRequestHandler<CreateSubscriberCommand>
+public class CreateSubscriberHandler : IRequestHandler<CreateSubscriberCommand, object>
 {
     private readonly ISubscriberRepository _subscriberRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -16,7 +16,7 @@ public class CreateSubscriberHandler : IRequestHandler<CreateSubscriberCommand>
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(CreateSubscriberCommand request, CancellationToken cancellationToken)
+    public async Task<object> Handle(CreateSubscriberCommand request, CancellationToken cancellationToken)
     {
         var subscriber = new Subscriber(
             new SubscriberId(Guid.NewGuid()),
@@ -28,5 +28,7 @@ public class CreateSubscriberHandler : IRequestHandler<CreateSubscriberCommand>
         await _subscriberRepository.AddAsync(subscriber);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return new object {};
     }
 }

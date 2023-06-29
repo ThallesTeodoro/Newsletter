@@ -1,4 +1,4 @@
-using Newsletter.Domain.Types;
+using Newsletter.Domain.Primitives.Types;
 
 namespace Newsletter.Domain.Entities;
 

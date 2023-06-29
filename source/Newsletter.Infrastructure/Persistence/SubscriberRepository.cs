@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Newsletter.Domain.Contracts.Persistence;
 using Newsletter.Domain.Entities;
 
@@ -17,5 +18,12 @@ public class SubscriberRepository : ISubscriberRepository
         await _context
             .Set<Subscriber>()
             .AddAsync(subscriber);
+    }
+
+    public async Task<bool> EmailIsUniqueAsync(string email)
+    {
+        return !await _context
+            .Set<Subscriber>()
+            .AnyAsync(s => s.Email == email);
     }
 }

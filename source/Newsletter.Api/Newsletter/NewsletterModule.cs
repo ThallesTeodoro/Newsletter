@@ -1,5 +1,9 @@
-﻿using Carter;
+﻿using System.Net;
+using Carter;
+using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Newsletter.Api.Contracts;
 using Newsletter.Application.Commands.Newsletter.CreateSubscriber;
 
 namespace Newsletter.Api.Newsletter;
@@ -13,11 +17,22 @@ public class NewsletterModule : CarterModule
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/", async (CreateSubscriberCommand command, ISender sender) =>
+        app.MapPost("/", async (
+            CreateSubscriberRequest request,
+            IValidator<CreateSubscriberCommand> validator,
+            ISender sender,
+            HttpContext httpContext) =>
         {
-            await sender.Send(command);
+            var response = new JsonResponse<object, object>(StatusCodes.Status201Created, null, null);
 
-            return Results.Ok();
+            await sender.Send(new CreateSubscriberCommand(
+                request.email,
+                request.fristName,
+                request.lastName));
+
+            httpContext.Response.StatusCode = response.StatusCode;
+
+            return response.ToString();
         });
     }
 }
