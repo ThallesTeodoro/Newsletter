@@ -34,7 +34,7 @@ services:
 
   newslettermq:
     image: rabbitmq:3.12.0-management
-    hostnme: newslettermq-queue
+    hostname: newslettermq-queue
     volumes:
       - ./.containers/queue/data/:/var/lib/rabbitmq
       - ./.containers/queue/log/:/var/log/rabbitmq
